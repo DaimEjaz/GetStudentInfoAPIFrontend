@@ -1,0 +1,96 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Fetched Student Data</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct"
+            crossorigin="anonymous"></script>
+
+    <!--<%-- For data tables --%>-->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.css" />
+
+    <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap4.min.js"></script>
+
+    <style>
+        * {
+            margin: 0px;
+            padding: 0px;
+            box-sizing: border-box;
+        }
+
+        body {
+            width: 90%;
+            margin: auto;
+            background-color: honeydew;
+            font-family: Cambria, Cochin, Georgia, Times, Times New Roman, serif;
+            padding: 5px;
+        }
+    </style>
+
+</head>
+<body>
+    <table id="studentTable" class="display">
+        <thead>
+            <tr>
+                <th>Id </th>
+                <th>Student Name </th>
+                <th>Address </th>
+                <th>Admission Year </th>
+            </tr>
+        </thead>
+    </table>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $.ajax({
+                url: 'localhost/GetStudentListAPI/AccessStudentInfo', //To be modified
+                method: 'get',
+                dataType: 'json',
+                contentType: 'application/json',
+                async: false,
+                success: function (data) {
+                    console.log(data);
+                    $('#studentTable').dataTable({
+                        data: JSON.parse(data),
+                        columns: [
+                            {
+                                "targets": 0, "data": "Id", "searchable": true
+                            },
+                            {
+                                "targets": 1, "data": "StudentName", "sortable": true, "searchable": true
+                            },
+                            {
+                                "targets": 2, "data": "Address", "sortable": true, "searchable": true
+                            },
+                            {
+                                "targets": 3, "data": "AdmissionYear", "sortable": true, "searchable": true
+                            },
+                            //{
+                            //    "targets": 4,
+                            //    "data": "Id",
+                            //    "render": function (data, type, row, meta) {
+                            //        var editButton = '<button type="button" class="btn btn-primary" id="edit" onclick="editCustomer(' + data + ')">Edit</button>';
+                            //        var deleteButton = '<button type="button" class="btn btn-danger" id="delete1" onclick="deleteCustomer(' + data + ')">Delete</button>';
+                            //        return editButton + " | " + deleteButton;
+                            //    },
+                            //    "sortable": false,
+                            //    "searchable": false,
+                            //    "visible": true
+                            //}
+                        ]
+                    })
+                }
+            });
+        })
+    </script>
+
+</body>
+</html>
